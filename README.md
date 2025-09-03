@@ -23,7 +23,7 @@ The document [docs/user-stories.md](docs/user-stories.md) contains the user stor
 ## Class Diagram
 The following class diagram illustrates the relationships between the main classes in the system:
 
-![class-diagram](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/upc-pre-202520-1asi0729-sandbox/typescript-review/refs/heads/master/docs/class-diagram.puml)
+![class-diagram](https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/upc-pre-202520-1asi0729-sandbox/typescript-review/refs/heads/master/docs/class-diagram.puml?token=GHSAT0AAAAAADJGFNEZOSSHWMNUFLSFQRRY2FXZZ3Q)
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
