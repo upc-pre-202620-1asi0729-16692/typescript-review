@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **DDD Improvements**: Updated `SalesOrder` aggregate root to return `ReadonlyArray` of items and removed public state setters to preserve aggregate integrity.
 - **Build System**: Updated `tsconfig.json` to target `ES2022` and use `NodeNext` for module resolution, aligning with modern ESM standards.
 - **Modern ESM Support**: Updated all internal imports to include `.js` extensions as required by Node.js ESM.
+- **Class Diagrams**: Updated class diagrams to reflect the new private field syntax and encapsulation changes.
 
 ### Fixed
 - Improved type safety across domain models using template literal types and strict private field enforcement.
