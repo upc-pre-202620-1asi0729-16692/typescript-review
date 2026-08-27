@@ -1,8 +1,8 @@
-import {DateTime} from "../../../shared/domain/model/date-time";
-import {SalesOrderItem} from "./sales-order-item";
-import {Currency} from "../../../shared/domain/model/currency";
-import {Money} from "../../../shared/domain/model/money";
-import {ProductId} from "./product-id";
+import {DateTime} from "../../../shared/domain/model/date-time.js";
+import {SalesOrderItem} from "./sales-order-item.js";
+import {Currency} from "../../../shared/domain/model/currency.js";
+import {Money} from "../../../shared/domain/model/money.js";
+import {ProductId} from "./product-id.js";
 
 /**
  * Represents the possible states of a SalesOrder.
@@ -28,12 +28,12 @@ export type SalesOrderState = 'PENDING' | 'CONFIRMED' | 'SHIPPED' | 'CANCELED';
  * ```
  */
 export class SalesOrder {
-    private readonly _customerId: string;
-    private readonly _id: string;
-    private readonly _items: SalesOrderItem[];
-    private readonly _orderedAt: DateTime;
-    private readonly _currency: Currency;
-    private _state: SalesOrderState;
+    readonly #customerId: string;
+    readonly #id: string;
+    readonly #items: SalesOrderItem[];
+    readonly #orderedAt: DateTime;
+    readonly #currency: Currency;
+    #state: SalesOrderState;
 
     /**
      * Creates a new SalesOrder instance.
@@ -49,35 +49,33 @@ export class SalesOrder {
     constructor(customerId: string, currency: Currency, orderedAt?: Date | string) {
         if (!customerId || customerId.trim() === '')
             throw Error(`Customer ID cannot be empty: ${customerId}`);
-        this._customerId = customerId;
-        this._id = crypto.randomUUID();
-        this._items = [];
-        this._orderedAt = new DateTime(orderedAt);
-        this._currency = currency;
-        this._state = 'PENDING';
+        this.#customerId = customerId;
+        this.#id = crypto.randomUUID();
+        this.#items = [];
+        this.#orderedAt = new DateTime(orderedAt);
+        this.#currency = currency;
+        this.#state = 'PENDING';
     }
 
     /** Determines if items can be added to the order based on its current state.
      * @return True if items can be added, false otherwise.
      */
     private canAddItems(): boolean {
-        return this._state !== 'CANCELED' && this._state !== 'SHIPPED';
+        return this.#state !== 'CANCELED' && this.#state !== 'SHIPPED';
     }
 
     /** Getters and Setters */
-    public get customerId(): string { return this._customerId; }
+    public get customerId(): string { return this.#customerId; }
 
-    public get id(): string { return this._id; }
+    public get id(): string { return this.#id; }
 
-    public get items(): SalesOrderItem[] { return this._items; }
+    public get items(): ReadonlyArray<SalesOrderItem> { return this.#items; }
 
-    public get orderedAt(): DateTime { return this._orderedAt; }
+    public get orderedAt(): DateTime { return this.#orderedAt; }
 
-    public get currency(): Currency { return this._currency; }
+    public get currency(): Currency { return this.#currency; }
 
-    public get state(): SalesOrderState { return this._state; }
-
-    public set state(newState: SalesOrderState) { this._state = newState; }
+    public get state(): SalesOrderState { return this.#state; }
 
     /**
      * Adds an item to the sales order.
@@ -92,16 +90,16 @@ export class SalesOrder {
      */
     public addItem(productId: ProductId, quantity: number, unitPriceAmount: number): void {
         if (!this.canAddItems())
-            throw new Error(`Cannot add items to an order that is ${this._state}`);
+            throw new Error(`Cannot add items to an order that is ${this.#state}`);
         if (!productId || productId.id.trim() === '')
             throw new Error('Product ID cannot be empty');
         if (quantity <= 0)
             throw new Error('Quantity must be greater than zero');
         if (unitPriceAmount < 0)
             throw new Error('Unit price amount cannot be negative');
-        const unitPrice = new Money(unitPriceAmount, this._currency);
-        const item = new SalesOrderItem(this._id, productId, quantity, unitPrice);
-        this._items.push(item);
+        const unitPrice = new Money(unitPriceAmount, this.#currency);
+        const item = new SalesOrderItem(this.#id, productId, quantity, unitPrice);
+        this.#items.push(item);
     }
 
     /**
@@ -109,8 +107,8 @@ export class SalesOrder {
      * @return The total amount as a {@link Money} object.
      */
     public calculateTotalAmount(): Money {
-        return this._items.reduce((total, item) =>
-            total.add(item.calculateItemTotal()), new Money(0, this._currency));
+        return this.#items.reduce((total, item) =>
+            total.add(item.calculateItemTotal()), new Money(0, this.#currency));
     }
 
     /**
@@ -118,7 +116,7 @@ export class SalesOrder {
      * @return The formatted order date.
      */
     public getFormattedOrderedAt(): string {
-        return this._orderedAt.format();
+        return this.#orderedAt.format();
     }
 
     /**
@@ -126,8 +124,8 @@ export class SalesOrder {
      * @throws {Error} If the order is not in the 'PENDING' state.
      */
     public confirm(): void {
-        if (this._state === "PENDING") this._state = "CONFIRMED";
-        else throw new Error(`Cannot confirm an order that is ${this._state}`);
+        if (this.#state === "PENDING") this.#state = "CONFIRMED";
+        else throw new Error(`Cannot confirm an order that is ${this.#state}`);
     }
 
     /**
@@ -135,8 +133,8 @@ export class SalesOrder {
      * @throws {Error} If the order is not in the 'CONFIRMED' state.
      */
     public ship(): void {
-        if (this._state === "CONFIRMED") this._state = "SHIPPED";
-        else throw new Error(`Cannot ship an order that is ${this._state}`);
+        if (this.#state === "CONFIRMED") this.#state = "SHIPPED";
+        else throw new Error(`Cannot ship an order that is ${this.#state}`);
     }
 
     /**
@@ -144,10 +142,8 @@ export class SalesOrder {
      * @throws {Error} If the order is in the 'PENDING' or 'CANCELLED' state.
      */
     public cancel(): void {
-        if (this._state === "PENDING" || this._state === "CANCELED")
-            throw new Error(`Cannot cancel an order that is ${this._state}`);
-        this._state = "CANCELED";
+        if (this.#state === "PENDING" || this.#state === "CANCELED")
+            throw new Error(`Cannot cancel an order that is ${this.#state}`);
+        this.#state = "CANCELED";
     }
-
-
 }

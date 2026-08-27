@@ -32,21 +32,21 @@ export type CurrencyCode = `${UpperCaseLetter}${UpperCaseLetter}${UpperCaseLette
  * Value Object representing a currency with its code and formatting capabilities.
  */
 export class Currency {
-    private readonly _code: CurrencyCode;
+    readonly #code: CurrencyCode;
 
     /**
      * Creates a new Currency instance.
      * @param code - The three-letter ISO 4217 currency code.
      */
     constructor(code: CurrencyCode) {
-        this._code = code;
+        this.#code = code;
     }
 
     /**
      * Gets the currency code.
      * @return The three-letter ISO 4217 currency code.
      */
-    public get code(): string { return this._code; }
+    public get code(): CurrencyCode { return this.#code; }
 
     /**
      * Formats a given amount according to the currency and locale.
@@ -57,7 +57,7 @@ export class Currency {
     public formatAmount = (amount: number, locale: string = 'en-US'): string => {
         return amount.toLocaleString(locale, {
             style: 'currency',
-            currency: this._code,
+            currency: this.#code,
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
         });
@@ -67,5 +67,5 @@ export class Currency {
      * Returns the string representation of the currency code.
      * @return The three-letter ISO 4217 currency code.
      */
-    public toString = (): string => this._code;
+    public toString = (): string => this.#code;
 }

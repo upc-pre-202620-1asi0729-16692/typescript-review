@@ -14,7 +14,7 @@
  */
 
 export class DateTime {
-    private readonly _date: Date;
+    readonly #date: Date;
 
     /**
      * Creates a new DateTime instance.
@@ -31,8 +31,8 @@ export class DateTime {
             const parsedDate = new Date(value);
             if (isNaN(parsedDate.getTime())) throw Error(`Invalid date: ${parsedDate}`);
             if (parsedDate > now) throw Error(`Date cannot be in the future: ${parsedDate}`);
-            this._date = parsedDate;
-        } else this._date = now;
+            this.#date = parsedDate;
+        } else this.#date = now;
     }
 
     /**
@@ -40,7 +40,7 @@ export class DateTime {
      * @return The Date object.
      */
     public get value(): Date {
-        return this._date;
+        return this.#date;
     }
 
     /**
@@ -49,7 +49,7 @@ export class DateTime {
      * @return The formatted date string.
      */
     public format(locale: string = 'en-US'): string {
-        return this._date.toLocaleDateString(locale,
+        return this.#date.toLocaleDateString(locale,
             {
                 year: 'numeric', month: '2-digit', day: '2-digit',
                 hour: '2-digit', minute: '2-digit', second: '2-digit'
@@ -61,6 +61,6 @@ export class DateTime {
      * @return The ISO 8601 formatted date string.
      */
     public toString(): string {
-        return this._date.toISOString();
+        return this.#date.toISOString();
     }
 }

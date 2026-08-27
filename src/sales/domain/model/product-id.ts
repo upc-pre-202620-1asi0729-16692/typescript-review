@@ -10,7 +10,7 @@
  * ```
  */
 export class ProductId {
-    private readonly _id: string;
+    readonly #id: string;
 
     /**
      * Creates a new ProductId instance.
@@ -19,12 +19,12 @@ export class ProductId {
      * @param id - The unique identifier for the product. If not provided, a new UUID will be generated.
      */
     constructor(id?: string) {
-        this._id = id ?? crypto.randomUUID();
+        this.#id = id ?? crypto.randomUUID();
     }
 
     /**
      * Gets the unique ID of the product.
      * @return The unique ID as a string.
      */
-    public get id(): string { return this._id; }
+    public get id(): string { return this.#id; }
 }

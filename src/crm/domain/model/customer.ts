@@ -1,4 +1,4 @@
-import {Money} from "../../../shared/domain/model/money";
+import {Money} from "../../../shared/domain/model/money.js";
 
 /**
  * Represents a customer aggregate with a unique ID, name, and last order price.
@@ -18,9 +18,9 @@ import {Money} from "../../../shared/domain/model/money";
  * ```
  */
 export class Customer {
-    private readonly _id: string;
-    private readonly _name: string;
-    private _lastOrderPrice: Money | null;
+    readonly #id: string;
+    readonly #name: string;
+    #lastOrderPrice: Money | null;
 
     /**
      * Creates a new Customer instance.
@@ -33,34 +33,34 @@ export class Customer {
     constructor(name: string) {
         if (!name || name.trim() === '')
             throw Error(`Customer name cannot be empty: ${name}`);
-        this._id = crypto.randomUUID();
-        this._name = name;
-        this._lastOrderPrice = null;
+        this.#id = crypto.randomUUID();
+        this.#name = name;
+        this.#lastOrderPrice = null;
     }
 
     /**
      * Gets the unique ID of the customer.
      * @return The unique ID as a string.
      */
-    public get id(): string { return this._id; }
+    public get id(): string { return this.#id; }
 
     /**
      * Gets the name of the customer.
      * @return The name of the customer.
      */
-    public get name(): string { return this._name; }
+    public get name(): string { return this.#name; }
 
     /**
      * Gets the last order price of the customer.
      * @return The last order price as a {@link Money} object, or null if not set.
      */
-    public get lastOrderPrice(): Money | null { return this._lastOrderPrice; }
+    public get lastOrderPrice(): Money | null { return this.#lastOrderPrice; }
 
     /**
      * Sets the last order price of the customer.
      * @param newLastOrderPrice - The new last order price as a {@link Money} object.
      */
     public set lastOrderPrice(newLastOrderPrice: Money) {
-        this._lastOrderPrice = newLastOrderPrice;
+        this.#lastOrderPrice = newLastOrderPrice;
     }
 }

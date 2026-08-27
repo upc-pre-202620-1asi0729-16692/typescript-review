@@ -1,5 +1,5 @@
-import {ProductId} from "./product-id";
-import {Money} from "../../../shared/domain/model/money";
+import {ProductId} from "./product-id.js";
+import {Money} from "../../../shared/domain/model/money.js";
 
 /**
  * SalesOrderItem Entity represents an item in a sales order aggregate within the Sales bounded context.
@@ -17,11 +17,11 @@ import {Money} from "../../../shared/domain/model/money";
  * ```
  */
 export class SalesOrderItem {
-    private readonly _orderId: string;
-    private readonly _itemId: string;
-    private readonly _productId: ProductId;
-    private readonly _quantity: number;
-    private readonly _unitPrice: Money;
+    readonly #orderId: string;
+    readonly #itemId: string;
+    readonly #productId: ProductId;
+    readonly #quantity: number;
+    readonly #unitPrice: Money;
 
     /**
      * Creates a new SalesOrderItem instance.
@@ -35,48 +35,47 @@ export class SalesOrderItem {
      */
     constructor(orderId: string, productId: ProductId, quantity: number, unitPrice: Money) {
         if (quantity <= 0) throw Error(`Quantity must be greater than zero: ${quantity}`);
-        this._orderId = orderId;
-        this._itemId = crypto.randomUUID();
-        this._productId = productId;
-        this._quantity = quantity;
-        this._unitPrice = unitPrice;
+        this.#orderId = orderId;
+        this.#itemId = crypto.randomUUID();
+        this.#productId = productId;
+        this.#quantity = quantity;
+        this.#unitPrice = unitPrice;
     }
 
     /**
      * Gets the ID of the sales order to which this item belongs.
      * @return The sales order ID as a string.
      */
-    public get orderId(): string { return this._orderId; }
+    public get orderId(): string { return this.#orderId; }
 
     /**
      * Gets the unique ID of the sales order item.
      * @return The unique item ID as a string.
      */
-    public get itemId(): string { return this._itemId; }
+    public get itemId(): string { return this.#itemId; }
 
     /**
      * Gets the ID of the product being ordered.
      * @return The product ID as a {@link ProductId} object.
      */
-    public get productId(): ProductId { return this._productId; }
+    public get productId(): ProductId { return this.#productId; }
 
     /**
      * Gets the quantity of the product being ordered.
      * @return The quantity as a number.
      */
-    public get quantity(): number { return this._quantity; }
+    public get quantity(): number { return this.#quantity; }
 
     /**
      * Gets the unit price of the product.
      * @return The unit price as a {@link Money} object.
      */
-    public get unitPrice(): Money { return this._unitPrice; }
+    public get unitPrice(): Money { return this.#unitPrice; }
 
     /**
      * Calculates the total price for this sales order item based on quantity and unit price.
      */
     public calculateItemTotal(): Money {
-        return new Money(this._unitPrice.amount * this._quantity, this._unitPrice.currency);
+        return this.#unitPrice.multiply(this.#quantity);
     }
-
 }

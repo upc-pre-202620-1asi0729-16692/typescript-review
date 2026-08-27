@@ -2,10 +2,10 @@
  * Demonstrates usage of the sales order behavior with real-time and manual scenarios.
  * @public
  */
-import {Customer} from "./crm/domain/model/customer";
-import {Currency} from "./shared/domain/model/currency";
-import {SalesOrder} from "./sales/domain/model/sales-order";
-import {ProductId} from "./sales/domain/model/product-id";
+import {Customer} from "./crm/domain/model/customer.js";
+import {Currency} from "./shared/domain/model/currency.js";
+import {SalesOrder} from "./sales/domain/model/sales-order.js";
+import {ProductId} from "./sales/domain/model/product-id.js";
 
 console.log('Thank you for using WebStorm 💙');
 
