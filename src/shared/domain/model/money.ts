@@ -1,4 +1,4 @@
-import {Currency} from "./currency";
+import {Currency} from "./currency.js";
 
 /**
  * Value Object representing a monetary amount in a specific currency.
@@ -16,8 +16,8 @@ import {Currency} from "./currency";
  * ```
  */
 export class Money {
-    private readonly _amount: number;
-    private readonly _currency: Currency;
+    readonly #amount: number;
+    readonly #currency: Currency;
 
     /**
      * Creates a new Money instance.
@@ -27,35 +27,35 @@ export class Money {
      */
     constructor(amount: number, currency: Currency) {
         if (amount < 0) throw Error(`Amount cannot be negative: ${amount}`);
-        this._amount = amount;
-        this._currency = currency;
+        this.#amount = amount;
+        this.#currency = currency;
     }
 
     /**
      * Gets the monetary amount.
      * @return The monetary amount.
      */
-    public get amount(): number { return this._amount; }
+    public get amount(): number { return this.#amount; }
 
     /**
      * Gets the currency of the monetary amount.
      * @return The currency.
      */
-    public get currency(): Currency { return this._currency; }
+    public get currency(): Currency { return this.#currency; }
 
     /**
      * Formats the monetary amount according to its currency and locale.
      * @param locale - The locale to use for formatting (default is 'en-US').
      * @return The formatted monetary string.
      */
-    public format = (locale: string = 'en-US'): string => this._currency.formatAmount(this._amount, locale);
+    public format = (locale: string = 'en-US'): string => this.#currency.formatAmount(this.#amount, locale);
 
     /**
      * Returns the string representation of the monetary amount with its currency code.
      * @return The string representation in the format "CURRENCY_CODE AMOUNT".
      */
     public toString(): string {
-        return `${this._currency.code} ${this._amount.toFixed(2)}`;
+        return `${this.#currency.code} ${this.#amount.toFixed(2)}`;
     }
 
     /**
@@ -65,10 +65,10 @@ export class Money {
      * @param other - The other Money instance to add.
      */
     public add = (other: Money): Money => {
-        if (this._currency.code !== other.currency.code) {
-            throw new Error(`Cannot add amounts with different currencies: ${this._currency.code} and ${other.currency.code}`);
+        if (this.#currency.code !== other.currency.code) {
+            throw new Error(`Cannot add amounts with different currencies: ${this.#currency.code} and ${other.currency.code}`);
         }
-        return new Money(this._amount + other.amount, this._currency);
+        return new Money(this.#amount + other.amount, this.#currency);
     }
 
     /**
@@ -79,6 +79,6 @@ export class Money {
      */
     public multiply = (factor: number): Money => {
         if (factor < 0) throw Error(`Factor cannot be negative: ${factor}`);
-        return new Money(this._amount * factor, this._currency);
+        return new Money(this.#amount * factor, this.#currency);
     }
 }
