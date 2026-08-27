@@ -17,7 +17,7 @@
   "author": "Open-Source Applications Development Team",
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^6.0.2"
+    "typescript": "^7.0.2"
   },
   "private": true
 }
