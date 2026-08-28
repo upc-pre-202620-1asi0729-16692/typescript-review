@@ -19,5 +19,8 @@
   "devDependencies": {
     "typescript": "^7.0.2"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "uuid": "^14.0.2"
+  }
 }
