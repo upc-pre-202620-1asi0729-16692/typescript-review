@@ -27,11 +27,16 @@ package "shared.domain.model" {
 }
 
 package "crm.domain.model" {
-    class Customer {
+    class CustomerId {
         - #id: string
+        + id: string
+    }
+
+    class Customer {
+        - #id: CustomerId
         - #name: string
         - #lastOrderPrice: Money | null
-        + id: string
+        + id: CustomerId
         + name: string
         + lastOrderPrice: Money | null
     }
@@ -44,13 +49,18 @@ package "sales.domain.model" {
         + id: string
     }
 
+    class SalesOrderId {
+        - #id: string
+        + id: string
+    }
+
     class SalesOrderItem {
-        - #orderId: string
+        - #orderId: SalesOrderId
         - #itemId: string
         - #productId: ProductId
         - #quantity: number
         - #unitPrice: Money
-        + orderId: string
+        + orderId: SalesOrderId
         + itemId: string
         + productId: ProductId
         + quantity: number
@@ -60,18 +70,18 @@ package "sales.domain.model" {
 
     class SalesOrder {
         - #customerId: string
-        - #id: string
+        - #id: SalesOrderId
         - #items: SalesOrderItem[]
         - #orderedAt: DateTime
         - #currency: Currency
         - #state: SalesOrderState
         + customerId: string
-        + id: string
+        + id: SalesOrderId
         + items: ReadonlyArray<SalesOrderItem>
         + orderedAt: DateTime
         + currency: Currency
         + state: SalesOrderState
-        + addItem(productId: ProductId, quantity: number, unitPriceAmount: number): void
+        + addItem(productId: ProductId, quantity: number, unitPrice: Money): void
         + calculateTotalAmount(): Money
         + getFormattedOrderedAt(): string
         + confirm(): void
@@ -80,10 +90,12 @@ package "sales.domain.model" {
     }
 }
 
-Customer "1" o-- "0..*" SalesOrder
+Customer "1" *-- "1" CustomerId
+SalesOrder "1" *-- "1" SalesOrderId
 SalesOrder "1" *-- "1..*" SalesOrderItem
 SalesOrderItem "1" -- "1" ProductId
 SalesOrderItem "1" -- "1" Money
 Money "1" -- "1" Currency
 SalesOrder "1" -- "1" DateTime
+SalesOrder "1" -- "1" Currency
 @enduml
