@@ -4,7 +4,6 @@ import {Currency} from "../../../shared/domain/model/currency.js";
 import {Money} from "../../../shared/domain/model/money.js";
 import {ProductId} from "./product-id.js";
 import {SalesOrderId} from "./sales-order-id.js";
-import {generateUUID} from "../../../shared/domain/model/uuid.js";
 
 /**
  * Represents the possible states of a SalesOrder.
