@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-08-27
+
+### Added
+- `CustomerId` Value Object in CRM bounded context for type-safe customer identification.
+- `SalesOrderId` Value Object in Sales bounded context for type-safe order identification.
+
+### Changed
+- **API Improvement**: Updated `SalesOrder.addItem` to accept a `Money` object for the unit price, ensuring currency consistency and better encapsulation.
+- **Domain Decoupling**: Decoupled `SalesOrder` from CRM's `CustomerId` by using a primitive `string` for customer identification, reducing cross-context dependencies.
+- **Type Safety**: Refactored `Customer`, `SalesOrder`, and `SalesOrderItem` to use specialized identifier Value Objects (`CustomerId`, `SalesOrderId`).
+- **Standardization**: Unified error instantiation using `new Error()` across the entire codebase.
+- **Infrastructure**: Enhanced `tsconfig.json` with `ES2022`, `DOM`, and `ESNext` library support to resolve global symbol issues.
+- **UUID Generation**: Introduced a `generateUUID()` utility function to create unique identifiers for `CustomerId` and `SalesOrderId`, ensuring consistent ID generation across the application, with support for UUID v7.
+- **Documentation**: Updated JSDoc comments to reflect new Value Objects and method signatures, improving developer understanding.
+
+### Fixed
+- Corrected JSDoc `@throws` tags format and terminology ('CANCELED' spelling consistency).
+- Resolved "Unresolved variable or type 'Error'" warnings in both code and JSDoc comments.
+
 ## [1.1.0] - 2026-08-26
 
 ### Added
