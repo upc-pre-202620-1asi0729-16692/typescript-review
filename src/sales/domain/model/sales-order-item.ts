@@ -1,23 +1,25 @@
 import {ProductId} from "./product-id.js";
+import {SalesOrderId} from "./sales-order-id.js";
 import {Money} from "../../../shared/domain/model/money.js";
+import {generateUUID} from "../../../shared/domain/model/uuid.js";
 
 /**
  * SalesOrderItem Entity represents an item in a sales order aggregate within the Sales bounded-context.
  * @remarks
- * The item ID is generated using the crypto module's randomUUID function to ensure uniqueness.
+ * The item ID is generated using a UUID utility to ensure uniqueness.
  * It encapsulates data such as the order ID, item ID, product ID, quantity, and unit price.
  * It also provides a method to calculate the total price for the item based on quantity and unit price.
  * @example
  * ```typescript
  * const productId = new ProductId();
  * const unitPrice = new Money(50, new Currency('USD'));
- * const salesOrderItem = new SalesOrderItem('order123', productId, 2, unitPrice);
+ * const salesOrderItem = new SalesOrderItem(new SalesOrderId(), productId, 2, unitPrice);
  * console.log(salesOrderItem.itemId); // Outputs: a unique UUID
  * console.log(salesOrderItem.calculateItemTotal().toString()); // Outputs: USD 100.00
  * ```
  */
 export class SalesOrderItem {
-    readonly #orderId: string;
+    readonly #orderId: SalesOrderId;
     readonly #itemId: string;
     readonly #productId: ProductId;
     readonly #quantity: number;
@@ -33,10 +35,10 @@ export class SalesOrderItem {
      * @param quantity - The quantity of the product being ordered (must be greater than zero).
      * @param unitPrice - The unit price of the product.
      */
-    constructor(orderId: string, productId: ProductId, quantity: number, unitPrice: Money) {
+    constructor(orderId: SalesOrderId, productId: ProductId, quantity: number, unitPrice: Money) {
         if (quantity <= 0) throw new Error(`Quantity must be greater than zero: ${quantity}`);
         this.#orderId = orderId;
-        this.#itemId = crypto.randomUUID();
+        this.#itemId = generateUUID();
         this.#productId = productId;
         this.#quantity = quantity;
         this.#unitPrice = unitPrice;
@@ -44,9 +46,9 @@ export class SalesOrderItem {
 
     /**
      * Gets the ID of the sales order to which this item belongs.
-     * @return The sales order ID as a string.
+     * @return The sales order ID as a {@link SalesOrderId} object.
      */
-    public get orderId(): string { return this.#orderId; }
+    public get orderId(): SalesOrderId { return this.#orderId; }
 
     /**
      * Gets the unique ID of the sales order item.
