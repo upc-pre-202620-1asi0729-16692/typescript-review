@@ -57,11 +57,11 @@ As a sales manager, I want to cancel a sales order so that it can be voided if n
 - **Scenario: Cancel a pending sales order**
     - **Given** a sales order exists with a state of "PENDING",
     - **When** a sales manager cancels the sales order,
-    - **Then** the sales order’s state changes to "CANCELLED".
+    - **Then** the sales order’s state changes to "CANCELED".
 - **Scenario: Cancel a confirmed sales order**
     - **Given** a sales order exists with a state of "CONFIRMED",
     - **When** a sales manager cancels the sales order,
-    - **Then** the sales order’s state changes to "CANCELLED".
+    - **Then** the sales order’s state changes to "CANCELED".
 - **Scenario: Attempt to cancel a shipped sales order**
     - **Given** a sales order exists with a state of "SHIPPED",
     - **When** a sales manager attempts to cancel the sales order,
