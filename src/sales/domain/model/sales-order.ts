@@ -10,7 +10,7 @@ import {ProductId} from "./product-id.js";
 export type SalesOrderState = 'PENDING' | 'CONFIRMED' | 'SHIPPED' | 'CANCELED';
 
 /**
- * SalesOrder Aggregate represents a sales order within the Sales bounded context.
+ * SalesOrder Aggregate represents a sales order within the Sales bounded-context.
  * @remarks
  * The sales order encapsulates data such as the customer ID, order ID, list of items, order date, and currency.
  * It ensures that the order is associated with a valid customer and contains at least one item.
@@ -41,14 +41,14 @@ export class SalesOrder {
      * The constructor generates a unique UUID ID for the sales order and validates that the customer ID is not empty.
      * The order date is initialized to the current date and time if not provided.
      * The order state is initialized to 'PENDING'.
-     * @throws {Error} If the customer ID is empty or consists only of whitespace.
+     * @throws Error - If the customer ID is empty or consists only of whitespace.
      * @param customerId - The ID of the customer placing the order.
      * @param currency - The currency of the order.
      * @param orderedAt - The date and time when the order was placed (optional, defaults to current date and time).
      */
     constructor(customerId: string, currency: Currency, orderedAt?: Date | string) {
         if (!customerId || customerId.trim() === '')
-            throw Error(`Customer ID cannot be empty: ${customerId}`);
+            throw new Error(`Customer ID cannot be empty: ${customerId}`);
         this.#customerId = customerId;
         this.#id = crypto.randomUUID();
         this.#items = [];
@@ -83,7 +83,7 @@ export class SalesOrder {
      * Items can only be added if the order is in the 'PENDING' or 'CONFIRMED' state.
      * The method validates that the product ID is not empty, the quantity is greater than zero,
      * and the unit price amount is non-negative.
-     * @throws {Error} If the order state does not allow adding items, or if any validation fails.
+     * @throws Error - If the order state does not allow adding items, or if any validation fails.
      * @param productId The ID of the product being added.
      * @param quantity The quantity of the product being added.
      * @param unitPriceAmount The unit price amount of the product being added.
@@ -121,7 +121,7 @@ export class SalesOrder {
 
     /**
      * Confirms the sales order, changing its state to 'CONFIRMED'.
-     * @throws {Error} If the order is not in the 'PENDING' state.
+     * @throws Error - If the order is not in the 'PENDING' state.
      */
     public confirm(): void {
         if (this.#state === "PENDING") this.#state = "CONFIRMED";
@@ -130,7 +130,7 @@ export class SalesOrder {
 
     /**
      * Ships the sales order, changing its state to 'SHIPPED'.
-     * @throws {Error} If the order is not in the 'CONFIRMED' state.
+     * @throws Error - If the order is not in the 'CONFIRMED' state.
      */
     public ship(): void {
         if (this.#state === "CONFIRMED") this.#state = "SHIPPED";
@@ -139,7 +139,7 @@ export class SalesOrder {
 
     /**
      * Cancels the sales order, changing its state to 'CANCELLED'.
-     * @throws {Error} If the order is in the 'PENDING' or 'CANCELLED' state.
+     * @throws Error - If the order is in the 'PENDING' or 'CANCELLED' state.
      */
     public cancel(): void {
         if (this.#state === "PENDING" || this.#state === "CANCELED")

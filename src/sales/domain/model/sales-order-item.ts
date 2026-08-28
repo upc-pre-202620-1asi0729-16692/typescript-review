@@ -2,7 +2,7 @@ import {ProductId} from "./product-id.js";
 import {Money} from "../../../shared/domain/model/money.js";
 
 /**
- * SalesOrderItem Entity represents an item in a sales order aggregate within the Sales bounded context.
+ * SalesOrderItem Entity represents an item in a sales order aggregate within the Sales bounded-context.
  * @remarks
  * The item ID is generated using the crypto module's randomUUID function to ensure uniqueness.
  * It encapsulates data such as the order ID, item ID, product ID, quantity, and unit price.
@@ -27,14 +27,14 @@ export class SalesOrderItem {
      * Creates a new SalesOrderItem instance.
      * @remarks
      * The constructor generates a unique UUID item ID for the sales order item and validates that the quantity is greater than zero.
-     * @throws {Error} If the quantity is less than or equal to zero.
+     * @throws Error - If the quantity is less than or equal to zero.
      * @param orderId - The ID of the sales order to which this item belongs.
      * @param productId - The ID of the product being ordered.
      * @param quantity - The quantity of the product being ordered (must be greater than zero).
      * @param unitPrice - The unit price of the product.
      */
     constructor(orderId: string, productId: ProductId, quantity: number, unitPrice: Money) {
-        if (quantity <= 0) throw Error(`Quantity must be greater than zero: ${quantity}`);
+        if (quantity <= 0) throw new Error(`Quantity must be greater than zero: ${quantity}`);
         this.#orderId = orderId;
         this.#itemId = crypto.randomUUID();
         this.#productId = productId;

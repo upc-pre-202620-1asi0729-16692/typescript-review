@@ -27,12 +27,12 @@ export class Customer {
      * @remarks
      * The constructor generates a unique UUID ID for the customer and validates that the name is not empty.
      * The last order price is initialized to null and can be set later.
-     * @throws {Error} If the name is empty or consists only of whitespace.
+     * @throws Error - If the name is empty or consists only of whitespace.
      * @param name - The name of the customer.
      */
     constructor(name: string) {
         if (!name || name.trim() === '')
-            throw Error(`Customer name cannot be empty: ${name}`);
+            throw new Error(`Customer name cannot be empty: ${name}`);
         this.#id = crypto.randomUUID();
         this.#name = name;
         this.#lastOrderPrice = null;

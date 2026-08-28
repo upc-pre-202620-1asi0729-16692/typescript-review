@@ -23,10 +23,10 @@ export class Money {
      * Creates a new Money instance.
      * @param amount - The monetary amount (must be non-negative).
      * @param currency - The currency of the amount.
-     * @throws {Error} If the amount is negative.
+     * @throws Error - If the amount is negative.
      */
     constructor(amount: number, currency: Currency) {
-        if (amount < 0) throw Error(`Amount cannot be negative: ${amount}`);
+        if (amount < 0) throw new Error(`Amount cannot be negative: ${amount}`);
         this.#amount = amount;
         this.#currency = currency;
     }
@@ -60,7 +60,7 @@ export class Money {
 
     /**
      * Adds another Money instance to this one, ensuring both have the same currency.
-     * @throws {Error} If the currencies do not match.
+     * @throws Error - If the currencies do not match.
      * @return A new Money instance representing the sum of both amounts.
      * @param other - The other Money instance to add.
      */
@@ -73,12 +73,12 @@ export class Money {
 
     /**
      * Multiplies the monetary amount by a non-negative factor.
-     * @throws {Error} If the factor is negative.
+     * @throws Error - If the factor is negative.
      * @return A new Money instance representing the multiplied amount.
      * @param factor - The factor to multiply the amount by.
      */
     public multiply = (factor: number): Money => {
-        if (factor < 0) throw Error(`Factor cannot be negative: ${factor}`);
+        if (factor < 0) throw new Error(`Factor cannot be negative: ${factor}`);
         return new Money(this.#amount * factor, this.#currency);
     }
 }
