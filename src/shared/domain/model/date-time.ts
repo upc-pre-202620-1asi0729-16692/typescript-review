@@ -23,14 +23,14 @@ export class DateTime {
      * If a string is provided, it is parsed into a Date object.
      * An error is thrown if the date is invalid or in the future.
      * @param value - The date value as a Date object or an ISO 8601 string.
-     * @throws {Error} If the date is invalid or in the future.
+     * @throws Error - If the date is invalid or in the future.
      */
     constructor(value?: Date | string) {
         const now = new Date();
         if (value) {
             const parsedDate = new Date(value);
-            if (isNaN(parsedDate.getTime())) throw Error(`Invalid date: ${parsedDate}`);
-            if (parsedDate > now) throw Error(`Date cannot be in the future: ${parsedDate}`);
+            if (isNaN(parsedDate.getTime())) throw new Error(`Invalid date: ${parsedDate}`);
+            if (parsedDate > now) throw new Error(`Date cannot be in the future: ${parsedDate}`);
             this.#date = parsedDate;
         } else this.#date = now;
     }

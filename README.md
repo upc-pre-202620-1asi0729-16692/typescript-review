@@ -36,7 +36,7 @@ The project employs several OOP and DDD principles to ensure a robust and mainta
 
 - **Encapsulation**: Uses ECMAScript private fields (`#property`) for true runtime privacy. The `SalesOrder` aggregate root encapsulates its internal state and collection of items, exposing behavior through intent-revealing methods.
 - **Aggregate Roots**: `SalesOrder` acts as the entry point for the sales domain, enforcing business invariants and protecting the integrity of its child entities.
-- **Value Objects**: Immutable types like `Money`, `Currency`, and `DateTime` are defined by their value rather than identity, ensuring consistency across the domain.
+- **Value Objects**: Immutable types like `Money`, `Currency`, `DateTime`, `CustomerId`, `ProductId`, and `SalesOrderId` are defined by their value rather than identity, ensuring consistency across the domain.
 - **Bounded Contexts**: The application is organized into logical boundaries:
   - `crm`: Customer relationship management.
   - `sales`: Order processing and sales management.
